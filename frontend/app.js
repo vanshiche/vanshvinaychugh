@@ -297,10 +297,20 @@ function renderResult(data) {
 async function handleSubmit() {
   hideError();
 
-  const apiUrl = apiUrlInput.value.trim();
+  let apiUrl = apiUrlInput.value.trim();
   if (!apiUrl) {
     showError('Please enter an API endpoint URL.');
     return;
+  }
+  // Auto-append /bfhl if missing, so the user can just paste the Base URL safely
+  if (!apiUrl.endsWith('/bfhl')) {
+    if (apiUrl.endsWith('/')) {
+      apiUrl += 'bfhl';
+    } else {
+      apiUrl += '/bfhl';
+    }
+    // Update the input box to show the user what we are doing
+    apiUrlInput.value = apiUrl;
   }
 
   const rawInput = edgeInput.value;
